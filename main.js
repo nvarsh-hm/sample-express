@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000;
 const pool = require("pg").Pool;
 
 const databaseUri = process.env.DATABASE_URL;
-const pool = new Pool({
+const pool = new pool({
   connectionString: databaseUri,
 });
 
