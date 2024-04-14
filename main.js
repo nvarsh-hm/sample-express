@@ -4,6 +4,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 const pool = require("pg").Pool;
 
+const databaseUri = process.env.DATABASE_URL;
+const pool = new Pool({
+  connectionString: databaseUri,
+});
+
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -12,9 +17,11 @@ app.use(
 );
 
 app.get("/", (request, response) => {
-  response.json({
-    info: "Node.js, Express, and Postgres API",
-    env: process.env,
+  pool.query("SELECT * FROM User", (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
   });
 });
 
