@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+const pool = require("pg").Pool;
 
 app.use(bodyParser.json());
 app.use(
@@ -11,7 +12,10 @@ app.use(
 );
 
 app.get("/", (request, response) => {
-  response.json({ info: "Node.js, Express, and Postgres API" });
+  response.json({
+    info: "Node.js, Express, and Postgres API",
+    env: process.env,
+  });
 });
 
 app.listen(port, () => {
